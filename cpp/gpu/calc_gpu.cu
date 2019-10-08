@@ -20,7 +20,7 @@ __global__ void matrix_mul_gpu(int *M, int* N, int* P, int width)
 
 
 
-int gpuTest()
+int main()
 {
 	clock_t startTime, endTime;
 	startTime = clock();//计时开始

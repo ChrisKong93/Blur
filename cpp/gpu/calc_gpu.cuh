@@ -4,4 +4,4 @@
 #include <iostream>
 #include <time.h>
 
-int gpuTest();
+int main();
