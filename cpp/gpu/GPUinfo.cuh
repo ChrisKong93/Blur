@@ -3,5 +3,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <time.h>
+#include "device_launch_parameters.h"
+#include <stdio.h>
 
-int info();
+int main();

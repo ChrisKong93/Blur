@@ -1,6 +1,6 @@
 #include "calc_cpu.cuh"
 #include "calc_gpu.cuh"
-#include "Test.cuh"
+#include "GPUinfo.cuh"
 #include "blur_gpu.cuh"
 #include <thread>
 #include "start.h"

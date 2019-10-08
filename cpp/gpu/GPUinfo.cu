@@ -1,8 +1,6 @@
-#include "cuda_runtime.h"
-#include "device_launch_parameters.h"
-#include <stdio.h>
+#include "GPUinfo.cuh"
 
-int info() {
+int main() {
 	int deviceCount;
 	cudaGetDeviceCount(&deviceCount);
 
@@ -39,6 +37,5 @@ int info() {
 		printf("Memory Clock rate:                              %.0f MHz\n", deviceProp.memoryClockRate * 1e-3f);
 		printf("Memory Bus Width:                               %d-bit\n", deviceProp.memoryBusWidth);
 	}
-
 	return 0;
 }
