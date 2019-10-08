@@ -4,4 +4,4 @@
 #include <time.h>
 #include <math.h>
 
-int cpuTest();
+int main();

@@ -22,8 +22,6 @@ void matrix_mul_cpu(float* M, float* N, float* P, int width)
 
 int main()
 {
-	//struct timeval start, end;
-	//gettimeofday(&start, NULL);
 	clock_t startTime, endTime;
 	startTime = clock();//计时开始
 
