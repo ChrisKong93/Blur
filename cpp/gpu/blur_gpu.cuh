@@ -5,4 +5,4 @@
 
 using namespace std;
 
-int blurTest(int index);
+int main(int index);

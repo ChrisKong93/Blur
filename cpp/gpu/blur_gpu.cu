@@ -1,29 +1,16 @@
 #include "blur_gpu.cuh"
 
 __global__ void operatepic(int g, int *img1, int *img2, int *img3, int index) {
-	//const int i = (blockIdx.x + blockIdx.y * gridDim.x) * blockDim.x * blockDim.y + threadIdx.y * blockDim.x + threadIdx.x;
-	//int h = g[0]; //?????
-	//int w = g[1]; //?????
-	//int k = g[2]; //??????
-	//long j = g[3] * g[4]; //gpu?????
-	//int p = g[5]; //cpu????????
-
 	int t = 32 * 30;
 	int threadId_3D = threadIdx.x + threadIdx.y*blockDim.x + threadIdx.z*blockDim.x*blockDim.y;
 	int blockId_3D = blockIdx.x + blockIdx.y*gridDim.x + blockIdx.z*gridDim.x*gridDim.y;
 	int i = threadId_3D + (blockDim.x*blockDim.y*blockDim.z)*blockId_3D;
-	//printf("%d", index);
-	//while (true)
-	//{
-		//printf("%d", index);
-	//}
 
 	if (g / t < 1) {
 		img3[i] = (img1[i] + img2[i]) / 2;
 	}
 	else {
 		for (int j = 0; j <= (g / t); j++) {
-			//printf("%d,", 3 * (j * t + g % t) + 0);
 			if (index == 0) {
 				img3[i + j * t] = (img1[i + j * t] + img2[i + j * t]) / 2;
 			}
@@ -36,9 +23,9 @@ __global__ void operatepic(int g, int *img1, int *img2, int *img3, int index) {
 }
 
 
-int blurTest(int index = 0) {
+int main(int index = 0) {
 	clock_t startTime, endTime;
-	startTime = clock();//??????
+	startTime = clock();
 	int Row = 1920;
 	int Col = 1080;
 	int *A = (int *)malloc(sizeof(int) * Row * Col);
@@ -55,7 +42,6 @@ int blurTest(int index = 0) {
 	else {
 		printf("success\n");
 	}
-	//printf("aaaaaaa\n");
 	cudaMalloc((void**)&d_dataA, sizeof(int) * Row * Col);
 	cudaMalloc((void**)&d_dataB, sizeof(int) * Row * Col);
 	cudaMalloc((void**)&d_dataC, sizeof(int) * Row * Col);
@@ -73,12 +59,12 @@ int blurTest(int index = 0) {
 	//printf("Block(%d,%d)   Grid(%d,%d).\n", threadPerBlock.x, threadPerBlock.y, blockNumber.x, blockNumber.y);
 
 	operatepic <<< blockNumber, threadPerBlock >>> (s, d_dataA, d_dataB, d_dataC, index);
-	//????????????-??????????
+    //拷贝计算数据-一级数据指针
 	cudaMemcpy(C, d_dataC, sizeof(int) * Row * Col, cudaMemcpyDeviceToHost);
-	for (int j = 0; j < s; j++) {
-		printf("%d", C[j]);
-	}
-	//??????
+//	for (int j = 0; j < s; j++) {
+//		printf("%d", C[j]);
+//	}
+    //释放内存
 	free(A);
 	free(B);
 	free(C);
@@ -86,7 +72,7 @@ int blurTest(int index = 0) {
 	cudaFree(d_dataB);
 	cudaFree(d_dataC);
 
-	endTime = clock();//???????
+	endTime = clock();//计时结束
 
 	cout << "GPU The run time is: " << (double)(endTime - startTime) /* CLOCKS_PER_SEC*/ << "ms" << endl;
 	return 0;
